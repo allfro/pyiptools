@@ -160,16 +160,36 @@ def portrange(ports):
 
 def resolvers():
     """Returns a list of the current system's DNS resolvers."""
-    r = []
+    res = []
     if sep == '/' and path.exists('/etc/resolv.conf'):
         for l in open('/etc/resolv.conf'):
             if l.startswith('nameserver'):
                 ns = split('\s+', l)
-                r.append(ns[1])
+                res.append(ns[1])
     elif sep == '\\':
-        # TODO: Get MS Winblows resolvers
-        pass
-    return r
+        from _winreg import *
+        r = ConnectRegistry(None, HKEY_LOCAL_MACHINE)
+        k = OpenKey(r, r'SYSTEM\ControlSet001\services\Tcpip\Parameters\Interfaces')
+        i = 0
+        while True:
+            try:
+                n = OpenKey(k, EnumKey(k, i))
+                try:
+                    servers = QueryValueEx(n, 'NameServer')[0]
+                    if servers:
+                        res.extend(servers.split(' '))
+                except WindowsError:
+                    pass
+                try:
+                    servers = QueryValueEx(n, 'DhcpNameServer')[0]
+                    if servers:
+                        res.extend(servers.split(' '))
+                except WindowsError:
+                    pass
+            except WindowsError:
+                break
+            i += 1
+    return res
 
 
 class IPAddress(Number):
