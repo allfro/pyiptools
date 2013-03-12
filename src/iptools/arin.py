@@ -3,7 +3,7 @@
 from urllib2 import urlopen, quote, Request, HTTPError
 
 __author__ = 'Nadeem Douba'
-__copyright__ = 'Copyright 2012, Sploitego Project'
+__copyright__ = 'Copyright 2013, PyIPTools Project'
 __credits__ = []
 
 __license__ = 'GPL'
