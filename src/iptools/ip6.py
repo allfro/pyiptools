@@ -6,7 +6,7 @@ from re import search, match
 from numbers import Number
 
 __author__ = 'Nadeem Douba'
-__copyright__ = 'Copyright 2012, Sploitego Project'
+__copyright__ = 'Copyright 2013, PyIPTools Project'
 __credits__ = []
 
 __license__ = 'GPL'
